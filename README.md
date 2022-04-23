@@ -1,2 +1,3 @@
-# tiktok-share-bot
-🎶 TikTok Share Bot
+## 🎶 TikTok Share Bot
+
+An undetectable, efficient TikTok share bot.

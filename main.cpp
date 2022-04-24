@@ -8,22 +8,12 @@
 
 void send_task()
 {
-	reqs->send_req();
-}
-
-void display_task()
-{
-	while (true)
-	{
-		std::cout << reqs->get_sent() * 60 << std::endl;
-		Sleep(60 * 1000);
-	}
+	reqs->send_share();
 }
 
 int main()
 {
-	ThreadPool pool(1000);
-	pool.enqueue(&display_task);
+	ThreadPool pool(100);
 
 	for (int i = 0; i < 100000; i++)
 	{

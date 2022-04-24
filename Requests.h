@@ -27,11 +27,7 @@ private:
 public:
 	Requests();
 	~Requests();
-
-	void send_req();
-
-	int get_sent();
-	void reset_sent();
+	void send_share();
 };
 
 inline std::unique_ptr<Requests> reqs = std::make_unique<Requests>();

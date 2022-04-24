@@ -17,7 +17,7 @@ Requests::~Requests()
 	curl_global_cleanup();
 }
 
-void Requests::send_req()
+void Requests::send_share()
 {
 	std::string api_domain = Helpers::random_choice(Constants::API_DOMAINS);
 	std::string platform = Helpers::random_choice(Constants::PLATFORMS);
@@ -25,23 +25,28 @@ void Requests::send_req()
 	std::string app_name = Helpers::random_choice(Constants::APP_NAMES);
 	std::string channel = Helpers::random_choice(Constants::CHANNELS);
 
-	std::string os_version = std::to_string(Helpers::random_long(1, 12));
-	std::string device_id = std::to_string(Helpers::random_long(1000000000000000000, 9999999999999999999));
+	std::string os_version = std::to_string(Helpers::random_int(1, 12));
+	std::string device_id = {};
+	for (size_t i = 0; i < 19; i++)
+	{
+		device_id.append(std::to_string(Helpers::random_int(0, 9)));
+	}
 
 	std::string useragent = Helpers::random_choice(Constants::USERAGENTS);
 
 	std::string url = std::format("https://{}/aweme/v1/aweme/stats/?channel={}&device_type={}&device_id={}&os_version={}&version_code=220400&app_name={}&device_platform={}&aid=1988", api_domain, channel, device_type, device_id, os_version, app_name, platform);
-	std::string postfields = std::format("item_id={}&share_delta=1", "7085574394822659370");
+	std::string postfields = std::format("item_id={}&share_delta=1", "7087365331995462955");
 
 	CURL* curl = curl_easy_init();
-	std::string res_str;
-
-	curl_slist* headers = nullptr;
-	curl_slist_append(headers, "Content-Type: application/x-www-form-urlencoded; charset=UTF-8");
-	curl_slist_append(headers, useragent.c_str());
 
 	if (curl) 
 	{
+		std::string res_str;
+
+		curl_slist* headers = nullptr;
+		curl_slist_append(headers, "Content-Type: application/x-www-form-urlencoded; charset=UTF-8");
+		curl_slist_append(headers, useragent.c_str());
+
 		curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
 		curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, my_write);
 		curl_easy_setopt(curl, CURLOPT_WRITEDATA, &res_str);
@@ -56,14 +61,4 @@ void Requests::send_req()
 			sent_requests++;
 		}
 	}
-}
-
-int Requests::get_sent()
-{
-	return sent_requests;
-}
-
-void Requests::reset_sent()
-{
-	sent_requests = 0;
 }
